@@ -1,0 +1,124 @@
+// Variables
+var playerHeight = 80
+var playerWidth = 20
+var playerSpeed = 8
+var playerL = 200
+var playerR = 200
+
+var scoreL = 0
+var scoreR = 0
+
+var ballX = 300
+var ballY = 200
+var ballSize = 20
+var ballXSpeed = 4
+var ballYSpeed = -2
+
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(200);
+  
+  fill (0)
+  textSize(20);
+  text(scoreL, 2, 22);
+  text(scoreR, width-35, 22);
+  
+  //draw center line
+  stroke(250,250,250);
+  line(300,0,300,600);
+  
+  // draw left player
+  stroke(0);
+  fill(250,50,10);
+  rect(0, playerL, playerWidth, playerHeight);
+
+  // draw right player
+  stroke(0);
+  rect(width-playerWidth, playerR, playerWidth, playerHeight);
+
+  // draw ball
+  fill(250,200,30);
+  ellipse(ballX, ballY, ballSize)
+
+
+
+  // 'W' key
+  if (keyIsDown(87)) {
+    playerL = playerL - playerSpeed
+  }
+  // 'S' key
+  if (keyIsDown(83)) {
+    playerL = playerL + playerSpeed
+  }
+  
+  //
+  if (keyIsDown(UP_ARROW)) {
+    playerR = playerR - playerSpeed
+  }
+  //
+  if (keyIsDown(DOWN_ARROW)) {
+    playerR = playerR + playerSpeed
+  }
+
+
+  if (playerL <= 0) {
+    playerL = 0;
+  }
+  if (playerL > height - playerHeight) {
+    playerL = height - playerHeight;
+  }
+
+  if (playerR <= 0) {
+    playerR = 0;
+  }
+  if (playerR > height - playerHeight) {
+    playerR = height - playerHeight;
+  }
+
+  ballX = ballX + ballXSpeed
+  ballY = ballY + ballYSpeed
+
+  // Bounce off top wall
+  if (ballY < 0) {
+    ballY = 0;
+    ballYSpeed = -ballYSpeed;
+  }
+
+  // Bounce off bottom wall
+  if (ballY > height) {
+    ballY = height;
+    ballYSpeed = -ballYSpeed;
+  }
+
+
+  // bounce off right player
+  if (ballX > width - playerWidth && ballY >= playerR && ballY <= playerR + playerHeight) {
+    ballX = width - playerWidth-10;
+    ballXSpeed = -ballXSpeed;
+  }
+  
+  // bounce off left player
+  if (ballX < playerWidth && ballY >= playerL && ballY <= playerL + playerHeight) {
+    ballX = playerWidth+10;
+    ballXSpeed = -ballXSpeed;
+  }
+
+  // playerL scores!
+  if (ballX > width) {
+    ballX = width/2
+    ballY = height/2
+    scoreL = scoreL + 1
+    ballXSpeed = - ballXSpeed 
+  }
+  
+  // playerL scores!
+  if (ballX < 0) {
+    ballX = width/2
+    ballY = height/2
+    scoreR = scoreR + 1
+    ballXSpeed = - ballXSpeed 
+  }
+}
